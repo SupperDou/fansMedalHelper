@@ -172,7 +172,7 @@ class BiliApi:
             "access_key": self.u.access_key,
             "actionKey": "appkey",
             "appkey": Crypto.APPKEY,
-            "ts": int(time.time()),
+            "click_time": 1,
             "roomid": room_id,
         }
         # for _ in range(3):
@@ -187,7 +187,7 @@ class BiliApi:
         )
         # await asyncio.sleep(self.u.config['LIKE_CD'] if not self.u.config['ASYNC'] else 2)
 
-    async def likeInteractV3(self, room_id: int, up_id: int):
+    async def likeInteractV3(self, room_id: int, up_id: int,self_uid:int):
         """
         点赞直播间V3
         """
@@ -196,9 +196,10 @@ class BiliApi:
             "access_key": self.u.access_key,
             "actionKey": "appkey",
             "appkey": Crypto.APPKEY,
-            "ts": int(time.time()),
+            "click_time": 1,
             "room_id": room_id,
             "anchor_id": up_id,
+            "uid":self_uid
         }
         # for _ in range(3):
         await self.__post(
@@ -496,19 +497,6 @@ class BiliApi:
             "access_key": self.u.access_key,
             "actionKey": "appkey",
             "appkey": Crypto.APPKEY,
-            "ts": int(time.time()),
-        }
-        return await self.__post(url, data=SingableDict(data).signed, headers=self.headers)
-
-    async def vup_vote(self, mid):
-        url = "https://api.bilibili.com/x/activity/vote_new/do"
-        data = {
-            "access_key": self.u.access_key,
-            "actionKey": "appkey",
-            "appkey": Crypto.APPKEY,
-            "datasource_group_id": "452",
-            "datasource_item_id": mid,
-            "activity_id": "283",
             "ts": int(time.time()),
         }
         return await self.__post(url, data=SingableDict(data).signed, headers=self.headers)
